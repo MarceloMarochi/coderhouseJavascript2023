@@ -1,30 +1,30 @@
-function burguerSimple() {
-  alert(
-    "Usted seleccionó un combo de hamburguesa simple.\n" +
-      "Precio: $1250\n" +
-      "Pulse ACEPTAR para continuar."
-  );
-  return 1250;
+// Clase constructora de los objetos hamburguesas.
+class Hamburguesa {
+  constructor(nombre, precio, descripcion) {
+    this.nombre = nombre;
+    this.precio = precio;
+    this.descripcion = descripcion;
+  }
 }
 
-function burguerDoble() {
-  alert(
-    "Usted seleccionó un combo de hamburguesa doble.\n" +
-      "Precio: $1500\n" +
-      "Pulse ACEPTAR para continuar."
-  );
-  return 1500;
-}
+// Declaracion de las hamburguesas.
+const hamburguesaSimple = new Hamburguesa(
+  "Burguer simple",
+  1250,
+  "combo de hamburguesa simple con papas"
+);
+const hamburguesaDoble = new Hamburguesa(
+  "Burguer simple",
+  1500,
+  "combo de hamburguesa doble con papas"
+);
+const hamburguesaTriple = new Hamburguesa(
+  "Burguer simple",
+  1750,
+  "combo de hamburguesa triple con papas"
+);
 
-function burguerTriple() {
-  alert(
-    "Usted seleccionó un como de hamburguesa triple.\n" +
-      "Precio: $1750\n" +
-      "Pulse ACEPTAR para continuar."
-  );
-  return 1750;
-}
-
+// Mensaje de resumen de compra - Detalle de la cantidad de hamburguesas seleccionadas.
 function resumenCompra(simple, doble, triple) {
   let msj1 = "";
   let msj2 = "";
@@ -51,13 +51,15 @@ function resumenCompra(simple, doble, triple) {
   return detalleCompra;
 }
 
+// Funcion principal.
 function seleccionarBurger() {
-  let carrito = 0;
+  let carritoCompras = [];
   let contadorSimple = 0;
   let contadorDoble = 0;
   let contadorTriple = 0;
   let repetir = true;
 
+  // Menu de opciones.
   while (repetir) {
     let opcion = parseInt(
       prompt(
@@ -75,38 +77,75 @@ function seleccionarBurger() {
     );
 
     switch (opcion) {
+      // Seleccion de hamburguesa simple.
       case 1:
         contadorSimple++;
-        carrito += burguerSimple();
+        carritoCompras.push(hamburguesaSimple);
+        alert(
+          "Usted seleccionó: \n" +
+            "---------------------------------------------------\n" +
+            "Un " +
+            hamburguesaSimple.descripcion +
+            "\nEl precio es $" +
+            hamburguesaSimple.precio +
+            "\n---------------------------------------------------"
+        );
         break;
 
+      // Seleccion de hamburguesa doble.
       case 2:
         contadorDoble++;
-        carrito += burguerDoble();
+        carritoCompras.push(hamburguesaDoble);
+        alert(
+          "Usted seleccionó: \n" +
+            "---------------------------------------------------\n" +
+            "Un " +
+            hamburguesaDoble.descripcion +
+            "\nEl precio es $" +
+            hamburguesaDoble.precio +
+            "\n---------------------------------------------------"
+        );
         break;
 
+      // Seleccion de hamburguesa triple.
       case 3:
         contadorTriple++;
-        carrito += burguerTriple();
+        carritoCompras.push(hamburguesaTriple);
+        alert(
+          "Usted seleccionó: \n" +
+            "---------------------------------------------------\n" +
+            "Un " +
+            hamburguesaTriple.descripcion +
+            "\nEl precio es $" +
+            hamburguesaTriple.precio +
+            "\n---------------------------------------------------"
+        );
         break;
 
+      // Calcular total de todas las hamburguesas seleccionadas.
       case 10:
+        let precioTotal = 0;
+        for (const burger of carritoCompras) {
+          precioTotal += burger.precio;
+        }
         alert(
           resumenCompra(contadorSimple, contadorDoble, contadorTriple) +
             "\nEl total a abonar es: " +
-            carrito
+            precioTotal
         );
+
         alert("Carrito de compras finalizado.\n" + "Pulse ACEPTAR para salir.");
         repetir = false;
         break;
 
+      // Salir del menu de opciones.
       case 0:
         let validarSalir = prompt("¿Seguro que desea salir? Ingrese SI/NO:");
-        if (validarSalir == "SI") {
+        if (validarSalir.toUpperCase() == "SI") {
           alert("Carrito de compras finalizado.");
           repetir = false;
           break;
-        } else if (validarSalir == "NO") {
+        } else if (validarSalir.toUpperCase() == "NO") {
           break;
         } else {
           alert(
@@ -115,6 +154,7 @@ function seleccionarBurger() {
           break;
         }
 
+      // Opcion ingresada no aparece en las opciones del menu de opciones.
       default:
         alert(
           "ERROR. \nLa opción ingresada no es correcta.\nVuelva al menu a seleccionar una opcion."
